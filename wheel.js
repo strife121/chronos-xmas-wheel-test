@@ -8,32 +8,33 @@ window.WHEEL_LOCK_DEBUG = WHEEL_LOCK_DEBUG;
 const SECTORS_COUNT = 9;
 const SECTOR_IDS = ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9'];
 const SECTOR_LABELS = {
-  s1: 'Бесплатно Chronos Plus на месяц',
-  s2: 'Бесплатно 5 вопросов ИИ-астрологу',
-  s3: 'Бесплатно месяц доступа к ИИ-астрологу',
-  s4: 'Бесплатную консультацию',
-  s5: '52% скидку на Индивидуальный план развития',
-  s6: '30% скидку на Звездный аватар',
-  s7: 'Звездный аватар в подарок при оплате астрогруппы',
-  s8: 'Бесплатную диагностику',
-  s9: '45% скидка на консультацию «Кто я?»'
+  s1: 'Бесплатно Индвидуальный План развития',
+  s2: '30% скидку на Звездный аватар',
+  s3: 'Бесплатно месяц Chronos Plus',
+  s4: '45% скидку на Консультацию "Кто я?',
+  s5: 'Бесплатную диагностику с астрологом',
+  s6: '50% скидку на годовой Chronos Plus',
+  s7: 'Бесплатно 5 вопросов ИИ-астрологу',
+  s8: 'Бесплатный месяц ИИ-астролога',
+  s9: '30% скидку на программу “Свой год. Свои правила. Свои желания”'
 };
-const SECTOR_PROBABILITY = [5, 9, 3, 0, 25, 25, 8, 0, 25];
+const SECTOR_PROBABILITY = [0, 20, 5, 20, 0, 20, 9, 6, 20];
+
 const SECTOR_LINKS = {
-  s1: 'https://sbsite.pro//ChronosPlusPromo_1',
-  s2: 'https://sbsite.pro//chronos_io_bot_5_1?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=ai5q',
-  s3: 'https://sbsite.pro//chronos_io_bot_30_1?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=ai30',
-  s4: 'https://chronos.mg/',
-  s5: 'https://p.chronos.mg/offer-ipr?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=ipr52',
-  s6: 'https://p.chronos.mg/offer-avatar?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=avatar30',
-  s7: 'https://p.chronos.mg/astrogroup_freeavatar?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=astrogroup_freeavatar',
-  s8: 'https://chronos.mg/',
-  s9: 'https://p.chronos.mg/ktoya45?utm_source=webinar&utm_medium=wheel&utm_campaign=291025&utm_content=halloween25&utm_term=ktoya45'
+  s1: '',
+  s2: 'https://p.chronos.mg/offer-avatar?utm_source=landing&utm_medium=wheel&utm_campaign=newyear2026&utm_content=avatar30',
+  s3: 'https://sbsite.pro//ChronosPlusPromo_1',
+  s4: 'https://p.chronos.mg/offer-avatar?utm_source=landing&utm_medium=wheel&utm_campaign=newyear2026&utm_content=avatar30',
+  s5: '',
+  s6: 'https://p.chronos.mg/ny/prognosis/pr?utm_source=landing&utm_medium=wheel&utm_campaign=newyear2025&utm_content=prognoznagod',
+  s7: 'https://t.me/chronos_io_bot?start=ny26-5quest-wheel',
+  s8: 'https://t.me/chronos_io_bot?start=ny26-5quest-wheel',
+  s9: 'https://p.chronos.mg/newme_rec?utm_source=landing&utm_medium=wheel&utm_campaign=newyear2026&utm_content=newme_rec'
 };
 
 const spinSettings = { minTurns: 5, maxTurns: 7, duration: 6000 };
 const TARGET_DEG = 180;
-let ORDER_OFFSET = 4;
+let ORDER_OFFSET = 0;
 let BASE_SHIFT = 90;
 let NUDGE = 8;
 
@@ -43,6 +44,11 @@ const resultText = document.getElementById('spinResult');
 const countdown = document.getElementById('countdown');
 const countdownTimer = document.getElementById('countdown-timer');
 const timerNotice = document.getElementById('timerNotice');
+const pageRoot = document.querySelector('.page');
+const resultPopup = document.getElementById('resultPopup');
+const popupEmphasis = document.getElementById('popupEmphasis');
+const popupDescription = document.getElementById('popupDescription');
+const popupRedeemLink = document.getElementById('popupRedeemLink');
 
 let spinning = false;
 let hasSpun = false;
@@ -64,6 +70,68 @@ function syncPrizeGlobals() {
   window.currentRotation = currentRotation;
 }
 syncPrizeGlobals();
+
+function togglePopupVisibility(visible) {
+  const popupExists = Boolean(resultPopup);
+  if (popupExists) {
+    resultPopup.classList.toggle('popup--open', Boolean(visible));
+    resultPopup.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  }
+  if (pageRoot) {
+    pageRoot.classList.toggle('page--popup-visible', Boolean(visible && popupExists));
+  }
+}
+
+function splitPrizeLabel(label) {
+  const source = (label || '').replace(/\s+/g, ' ').trim();
+  if (!source) return { emphasis: '', description: '' };
+  const normalized = source.toLowerCase();
+  const separators = [' на '];
+  for (const separator of separators) {
+    const idx = normalized.indexOf(separator);
+    if (idx >= 0) {
+      return {
+        emphasis: source.slice(0, idx).trim(),
+        description: source.slice(idx).trim()
+      };
+    }
+  }
+  const words = source.split(' ');
+  if (words.length <= 1) {
+    return { emphasis: source, description: '' };
+  }
+  const emphasis = [words.shift()];
+  if ((/%/.test(emphasis[0]) || /скид/i.test(words[0] || '')) && words.length) {
+    emphasis.push(words.shift());
+  } else if (/бесплат/i.test(emphasis[0]) && words.length) {
+    // keep только первое слово "Бесплатно", остальное уходит в описание
+  }
+  return { emphasis: emphasis.join(' '), description: words.join(' ') };
+}
+
+function updatePopupContent(label, link) {
+  const { emphasis, description } = splitPrizeLabel(label);
+  if (popupEmphasis) {
+    popupEmphasis.textContent = emphasis || label || '';
+  }
+  if (popupDescription) {
+    popupDescription.textContent = description || label || '';
+  }
+  if (popupRedeemLink) {
+    popupRedeemLink.href = link || '#';
+    popupRedeemLink.target = '_blank';
+    popupRedeemLink.rel = 'noopener noreferrer';
+  }
+}
+
+function openResultPopup(label, link) {
+  updatePopupContent(label, link);
+  togglePopupVisibility(true);
+}
+
+function closeResultPopup() {
+  togglePopupVisibility(false);
+}
 
 function setResultMessage(message) {
   if (!resultText) return;
@@ -191,6 +259,7 @@ function handleSpinComplete() {
   syncPrizeGlobals();
 
   updateResultText(id, label);
+  openResultPopup(label, link);
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -221,6 +290,7 @@ function runSpin() {
   if (spinning) return;
   if (hasSpun && !WHEEL_LOCK_DEBUG) return;
 
+  closeResultPopup();
   hasSpun = true;
   spinning = true;
   spinBtn.disabled = true;
@@ -321,6 +391,7 @@ if (spinBtn && rotor) {
       rotor.style.transform = `rotate(${currentRotation}deg)`;
     }
     updateResultText(payload.id, lastPrizeLabel);
+    openResultPopup(lastPrizeLabel, lastPrizeLink);
 
     hasSpun = true;
     if (spinBtn) {
@@ -393,6 +464,7 @@ if (spinBtn && rotor) {
   function resetUIOnly() {
     clearTimer();
     setResultMessage('');
+    closeResultPopup();
 
     if (spinBtn) {
       spinBtn.disabled = false;

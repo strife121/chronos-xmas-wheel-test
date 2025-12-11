@@ -30,8 +30,6 @@
           <button class="btn btn--primary" id="spinBtn" type="button">
             <span>Крутить колесо</span>
           </button>
-
-          <p class="wheel-hero__result" id="spinResult"></p>
         </div>
 
         <!-- Правая часть: колесо -->
@@ -47,26 +45,39 @@
       </div>
     </section>
 
-    <!-- ====== ПОПАП РЕЗУЛЬТАТА (сейчас скрыт) ====== -->
-    <div class="popup" id="resultPopup">
+    <!-- ====== ПОПАП РЕЗУЛЬТАТА ====== -->
+    <div class="popup" id="resultPopup" aria-hidden="true">
       <div class="popup__backdrop"></div>
       <div class="popup__body">
+        <div class="popup__gift popup__gift--tl">
+          <img src="assets/giftbox1.png" alt="" role="presentation" />
+        </div>
+        <div class="popup__gift popup__gift--tr">
+          <img src="assets/giftbox2.png" alt="" role="presentation" />
+        </div>
+        <div class="popup__gift popup__gift--bl">
+          <img src="assets/giftbox2.png" alt="" role="presentation" />
+        </div>
+        <div class="popup__gift popup__gift--br">
+          <img src="assets/giftbox1.png" alt="" role="presentation" />
+        </div>
         <div class="popup-card">
           <div class="popup-card__content">
-            <div class="popup-card__label">Вы выиграли!</div>
-
-            <div class="popup-card__prize-main">
-              <span class="popup-card__prize-percent">45% скидку</span>
-              <span class="popup-card__prize-title">Годовой Chronos Plus</span>
-            </div>
-
-            <div class="popup-card__note">
-              Заберите подарок в течение 15:00
-            </div>
-
-            <button class="btn btn--primary popup-card__btn" type="button">
-              <span>Забрать подарок</span>
-            </button>
+            <p class="popup-card__eyebrow">Вы выиграли!</p>
+            <p class="popup-card__emphasis" id="popupEmphasis">45% скидку</p>
+            <p class="popup-card__description" id="popupDescription">
+              Годовой Chronos Plus
+            </p>
+            <p class="popup-card__timer" id="countdown" hidden>
+              Заберите подарок<br />
+              в течении <span id="countdown-timer">15:00</span>
+            </p>
+            <p class="popup-card__timer popup-card__timer--notice" id="timerNotice" hidden>
+              Время подарка истекло
+            </p>
+            <a class="popup-card__cta" id="popupRedeemLink" href="#" target="_blank" rel="noopener">
+              Забрать подарок
+            </a>
           </div>
         </div>
       </div>

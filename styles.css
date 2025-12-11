@@ -15,6 +15,10 @@
     box-sizing: border-box;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 html,
 body {
     margin: 0;
@@ -42,6 +46,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.page--popup-visible .screen--wheel {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .screen__inner {
@@ -83,16 +94,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.wheel-hero__result {
-    margin-top: 16px;
-    min-height: 1.2em;
-    font-size: 18px;
-    line-height: 1.2;
-    color: var(--text-main);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
 }
 
 /* ====== Колесо ====== */
@@ -180,7 +181,6 @@ body {
     z-index: 40;
 }
 
-/* включение попапа: добавь класс .popup--open */
 .popup--open {
     pointer-events: auto;
     opacity: 1;
@@ -189,7 +189,7 @@ body {
 .popup__backdrop {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));
+    background: rgba(8, 0, 0, 0.86);
 }
 
 .popup__body {
@@ -199,62 +199,178 @@ body {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    overflow: visible;
 }
 
 .popup-card {
     position: relative;
-    max-width: 520px;
-    width: 100%;
-    background: var(--card-bg);
-    border-radius: var(--border-radius-card);
+    width: 600px;
+    height: 600px;
+    z-index: 1;
+    border-radius: 64px;
+    background: #212121;
     box-shadow:
         0 40px 80px rgba(0, 0, 0, 0.65),
-        0 0 0 1px rgba(255, 255, 255, 0.08);
-    padding: 32px 32px 36px;
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    padding: 72px 48px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.popup--open .popup-card {
+    transform: scale(1);
+    opacity: 1;
 }
 
 .popup-card__content {
     position: relative;
     z-index: 1;
-}
-
-.popup-card__label {
-    font-size: 16px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #f5f5f5;
-    margin-bottom: 16px;
-}
-
-.popup-card__prize-main {
+    text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
+    align-items: center;
 }
 
-.popup-card__prize-percent {
-    font-size: 32px;
-    color: var(--accent-gold);
-    font-weight: 800;
-    letter-spacing: 0.12em;
+.popup-card__eyebrow {
+    margin: 0 0 32px;
+    color: #c2c2c2;
+    font-family: "Onest", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 6.48px;
     text-transform: uppercase;
 }
 
-.popup-card__prize-title {
-    font-size: 28px;
-    font-weight: 700;
+.popup-card__emphasis {
+    margin: 0;
+    color: #e7b100;
+    font-family: "Forum", serif;
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: 3.006px;
     text-transform: uppercase;
 }
 
-.popup-card__note {
-    margin: 8px 0 24px;
-    font-size: 16px;
-    opacity: 0.9;
+.popup-card__description {
+    margin: 24px 0 16px;
+    color: #fff;
+    font-family: "Forum", serif;
+    font-size: 44px;
+    font-weight: 400;
+    letter-spacing: 3.082px;
+    line-height: 0.9;
+    text-transform: uppercase;
 }
 
-.popup-card__btn {
-    min-width: 220px;
+.popup-card__timer {
+    margin: 0;
+    color: #c2c2c2;
+    font-family: "Onest", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 110%;
+}
+
+.popup-card__timer--notice {
+    margin-top: 8px;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+}
+
+.popup-card__cta {
+    margin-top: 44px;
+    display: flex;
+    width: 437.232px;
+    height: 83px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1482.143px;
+    background: linear-gradient(180deg, #ffd343 -20.54%, #f5dc87 20.13%, #ffd343 71.29%, #f8d974 116.07%);
+    box-shadow:
+        0 2.964px 4.891px rgba(0, 0, 0, 0.25),
+        0 1.482px 16.6px rgba(0, 0, 0, 0.25),
+        0 1.482px 2.964px rgba(255, 255, 255, 0.8) inset,
+        0 -2.371px 1.482px rgba(0, 0, 0, 0.35) inset,
+        0 2.964px 14.673px rgba(255, 255, 255, 0.34) inset;
+    color: #9f372c;
+    font-family: "Forum", serif;
+    font-size: 44.407px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 1.332px;
+    line-height: 90%;
+    -webkit-text-stroke-width: 1.48px;
+    -webkit-text-stroke-color: #9f372c;
+}
+
+.popup-card__cta:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 6px;
+}
+.popup__gift {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center;
+    transition:
+        transform 0.5s ease 0.1s,
+        opacity 0.3s ease 0.1s,
+        left 0.5s ease 0.1s,
+        top 0.5s ease 0.1s;
+}
+
+.popup__gift img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.popup__gift--tl img,
+.popup__gift--br img {
+    width: 260px;
+}
+
+.popup__gift--tr img,
+.popup__gift--bl img {
+    width: 210px;
+}
+
+.popup--open .popup__gift--tl {
+    opacity: 1;
+    left: 18%;
+    top: 18%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup--open .popup__gift--tr {
+    opacity: 1;
+    left: 82%;
+    top: 14%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup--open .popup__gift--bl {
+    opacity: 1;
+    left: 22%;
+    top: 82%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup--open .popup__gift--br {
+    opacity: 1;
+    left: 80%;
+    top: 78%;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* Мобилка */
@@ -271,24 +387,27 @@ body {
         align-items: center;
     }
 
-    .wheel-hero__result {
-        text-align: center;
-    }
-
     .wheel-stage__inner {
         width: min(360px, 88vw);
     }
 
     .popup-card {
-        padding: 24px 20px 28px;
-        border-radius: 24px;
+        width: min(90vw, 520px);
+        height: auto;
+        padding: 56px 32px 48px;
     }
 
-    .popup-card__prize-percent {
-        font-size: 26px;
+    .popup-card__emphasis {
+        font-size: clamp(48px, 16vw, 72px);
     }
 
-    .popup-card__prize-title {
-        font-size: 22px;
+    .popup-card__description {
+        font-size: clamp(42px, 14vw, 68px);
+    }
+
+    .popup-card__cta {
+        width: min(90%, 360px);
+        font-size: 32px;
+        height: 72px;
     }
 }
