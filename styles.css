@@ -1,0 +1,270 @@
+:root {
+    --bg-color: #1b0000;
+    --text-main: #ffffff;
+    --accent-gold: #ffd343;
+    --accent-gold-deep: #e5a800;
+    --card-bg: #222227;
+
+    --page-max-width: 1200px;
+    --border-radius-card: 32px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0b0000 url("assets/bg.jpg") center/cover no-repeat fixed;
+    color: var(--text-main);
+}
+
+/* ====== Layout страницы ====== */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* один экран с колесом */
+.screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen__inner {
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 24px 24px 32px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    column-gap: 40px;
+    align-items: center;
+}
+
+/* ====== Левая часть (логотип + заголовок + кнопка) ====== */
+
+.wheel-hero__logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.wheel-hero__title {
+    margin: 0 0 24px;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+}
+
+.wheel-hero__title::first-line {
+    letter-spacing: 0.2em;
+}
+
+.wheel-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* ====== Колесо ====== */
+
+.wheel-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel-stage__inner {
+    position: relative;
+    width: min(420px, 90vw);
+    aspect-ratio: 1 / 1;
+}
+
+.wheel-stage__wheel {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* ====== Кнопки ====== */
+
+.btn {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 1;
+    padding: 14px 32px;
+    border-radius: 999px;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.btn span {
+    white-space: nowrap;
+}
+
+.btn--primary {
+    background: radial-gradient(circle at top, #ffe89b, #ffbf3e);
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+    color: #4b2300;
+}
+
+.btn--primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.btn--primary:active {
+    transform: translateY(1px);
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+}
+
+/* ====== POPUP ====== */
+
+.popup {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: 40;
+}
+
+/* включение попапа: добавь класс .popup--open */
+.popup--open {
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.popup__backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));
+}
+
+.popup__body {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.popup-card {
+    position: relative;
+    max-width: 520px;
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: var(--border-radius-card);
+    box-shadow:
+        0 40px 80px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
+    padding: 32px 32px 36px;
+}
+
+.popup-card__content {
+    position: relative;
+    z-index: 1;
+}
+
+.popup-card__label {
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f5f5f5;
+    margin-bottom: 16px;
+}
+
+.popup-card__prize-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.popup-card__prize-percent {
+    font-size: 32px;
+    color: var(--accent-gold);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.popup-card__prize-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.popup-card__note {
+    margin: 8px 0 24px;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.popup-card__btn {
+    min-width: 220px;
+}
+
+/* Мобилка */
+
+@media (max-width: 768px) {
+    .screen__inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        row-gap: 24px;
+        padding: 24px 16px 32px;
+    }
+
+    .wheel-hero {
+        align-items: center;
+    }
+
+    .wheel-hero__title {
+        font-size: 28px;
+        letter-spacing: 0.12em;
+    }
+
+    .wheel-stage__inner {
+        width: min(360px, 88vw);
+    }
+
+    .popup-card {
+        padding: 24px 20px 28px;
+        border-radius: 24px;
+    }
+
+    .popup-card__prize-percent {
+        font-size: 26px;
+    }
+
+    .popup-card__prize-title {
+        font-size: 22px;
+    }
+}

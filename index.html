@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Chronos дарит подарки</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- ====== ЭКРАН С КОЛЕСОМ ====== -->
+    <section class="screen screen--wheel">
+      <div class="screen__inner">
+
+        <!-- Левая часть: логотип + заголовок + кнопка -->
+        <div class="wheel-hero">
+          <div class="wheel-hero__logo">
+            <img src="assets/logo-chronos.svg" alt="Chronos" />
+          </div>
+
+          <h1 class="wheel-hero__title">
+            Дарит подарки
+          </h1>
+
+          <button class="btn btn--primary" type="button">
+            <span>Крутить колесо</span>
+          </button>
+        </div>
+
+        <!-- Правая часть: колесо -->
+        <div class="wheel-stage">
+          <div class="wheel-stage__inner">
+            <img class="wheel-stage__wheel" src="assets/wheel.png" alt="Колесо подарков" />
+            <!-- стрелка можно отдельно если нужно -->
+            <!-- <img class="wheel-stage__pointer" src="assets/pointer.svg" alt=""> -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====== ПОПАП РЕЗУЛЬТАТА (сейчас скрыт) ====== -->
+    <div class="popup" id="resultPopup">
+      <div class="popup__backdrop"></div>
+      <div class="popup__body">
+        <div class="popup-card">
+          <div class="popup-card__content">
+            <div class="popup-card__label">Вы выиграли!</div>
+
+            <div class="popup-card__prize-main">
+              <span class="popup-card__prize-percent">45% скидку</span>
+              <span class="popup-card__prize-title">Годовой Chronos Plus</span>
+            </div>
+
+            <div class="popup-card__note">
+              Заберите подарок в течение 15:00
+            </div>
+
+            <button class="btn btn--primary popup-card__btn" type="button">
+              <span>Забрать подарок</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- На шаге 1 JS не подключаем, только верстка.
+       Чтобы посмотреть попап, временно добавь класс .popup--open в div.popup -->
+</body>
+
+</html>
