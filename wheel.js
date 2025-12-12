@@ -272,7 +272,7 @@ function startCountdown(seconds = 900) {
   countdown.hidden = false;
   countdown.classList.add('show');
   if (timerNotice) timerNotice.hidden = true;
-  clearInterval(window.countdownInterval);
+  cancelAnimationFrame(window.countdownInterval);
 
   function format(timeLeft) {
     const minutes = Math.floor(timeLeft / 60);
@@ -280,20 +280,26 @@ function startCountdown(seconds = 900) {
     return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   }
 
+  const deadline = Date.now() + seconds * 1000;
   countdownTimer.textContent = format(seconds);
-  window.countdownInterval = setInterval(() => {
-    seconds -= 1;
-    countdownTimer.textContent = format(Math.max(seconds, 0));
-    if (seconds <= 0) {
-      clearInterval(window.countdownInterval);
+
+  const tick = () => {
+    const timeLeft = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    countdownTimer.textContent = format(timeLeft);
+    if (timeLeft <= 0) {
+      cancelAnimationFrame(window.countdownInterval);
       clearTimerDeadline();
       countdown.hidden = true;
       if (timerNotice) {
         timerNotice.hidden = false;
         timerNotice.classList.add('show');
       }
+      return;
     }
-  }, 1000);
+    window.countdownInterval = requestAnimationFrame(tick);
+  };
+
+  window.countdownInterval = requestAnimationFrame(tick);
 }
 
 (function restoreTimerFromStorage() {

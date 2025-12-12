@@ -91,7 +91,7 @@ body {
 }
 
 .wheel-hero__logo img {
-    height: 40px;
+    height: 36px;
     width: auto;
     display: block;
 }
@@ -132,7 +132,7 @@ body {
     height: 100%;
     display: block;
     object-fit: contain;
-    transform-origin: calc(50% + 1.5px) calc(50% + 0.2px);
+    /* transform-origin: calc(50% + 1.5px) calc(50% + 0.2px); */
 }
 
 .wheel-stage__arrow {
@@ -176,7 +176,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 1000px;
-    background: linear-gradient(180deg, #ffd343 -20.54%, #f5dc87 20.13%, #ffd343 71.29%, #f8d974 116.07%);
+    background: linear-gradient(90deg, #d9eef8 -11.43%, #ffe1a0 51.75%, #dfeeff 110.26%);
     box-shadow:
         0 2px 3.3px rgba(0, 0, 0, 0.25),
         0 1px 11.2px rgba(0, 0, 0, 0.25),
@@ -334,7 +334,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 1482.143px;
-    background: linear-gradient(180deg, #ffd343 -20.54%, #f5dc87 20.13%, #ffd343 71.29%, #f8d974 116.07%);
+    background: linear-gradient(90deg, #d9eef8 -11.43%, #ffe1a0 51.75%, #dfeeff 110.26%);
     box-shadow:
         0 2.964px 4.891px rgba(0, 0, 0, 0.25),
         0 1.482px 16.6px rgba(0, 0, 0, 0.25),
@@ -342,15 +342,16 @@ body {
         0 -2.371px 1.482px rgba(0, 0, 0, 0.35) inset,
         0 2.964px 14.673px rgba(255, 255, 255, 0.34) inset;
     color: #9f372c;
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #9f372c;
     font-family: "Forum", serif;
     font-size: 44.407px;
     text-transform: uppercase;
     text-decoration: none;
     font-weight: 400;
-    letter-spacing: 1.332px;
+    letter-spacing: 0.87px;
     line-height: 90%;
-    -webkit-text-stroke-width: 1.48px;
-    -webkit-text-stroke-color: #9f372c;
 }
 
 .popup-card__cta:focus-visible {
