@@ -2,7 +2,7 @@
    WHEEL — Spin logic for the current layout
    ========================= */
 
-const WHEEL_LOCK_DEBUG = true; // allow multiple spins for mapping during setup
+const WHEEL_LOCK_DEBUG = false; // allow multiple spins for mapping during setup
 window.WHEEL_LOCK_DEBUG = WHEEL_LOCK_DEBUG;
 
 const SECTORS_COUNT = 9;
